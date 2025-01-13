@@ -2,13 +2,15 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2022",
-    "lib": ["ES2023"],
+    // "target": "ES2022",
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    // "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
@@ -16,21 +18,42 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    "noUnusedLocals": false,
+    // "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
     /* Library */
     "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
     "paths": {
-      "@/*": ["src/*"],
-      "@types/*": ["src/types/*"]
-    }
+      "@/*": ["./src/*"],
+    },
+    "importHelpers": true,
+    "types": ["node", "vue"],
+
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    // "module": "system",
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "sourceMap": false,
+    "strictNullChecks": true,
   },
   "include": [
     "vite.config.ts",
     "src/**/*.ts",
     "src/**/*.d.ts"
-  ]
+  ],
+  "types": ["@testing-library/jest-dom", "node"],
+  "exclude": ["**/test", "**/dist", "**/__tests__"],
 }
