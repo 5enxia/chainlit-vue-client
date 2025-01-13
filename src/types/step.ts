@@ -1,4 +1,4 @@
-import { IFeedback } from './feedback';
+import type { IFeedback } from './feedback';
 
 type StepType =
   | 'assistant_message'

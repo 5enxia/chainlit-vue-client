@@ -1,6 +1,6 @@
-import { IThread } from 'src/types';
+import type { IThread } from './thread';
 
-import { IPageInfo } from '..';
+import type { IPageInfo } from '..';
 
 export type UserInput = {
   content: string;

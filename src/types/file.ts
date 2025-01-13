@@ -1,5 +1,5 @@
-import { IAction } from './action';
-import { IStep } from './step';
+import type { IAction } from './action';
+import type { IStep } from './step';
 
 export interface FileSpec {
   accept?: string[] | Record<string, string[]>;

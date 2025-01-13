@@ -1,5 +1,5 @@
-import { IElement } from './element';
-import { IStep } from './step';
+import type { IElement } from './element';
+import type { IStep } from './step';
 
 export interface IThread {
   id: string;
