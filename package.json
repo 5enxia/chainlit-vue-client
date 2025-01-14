@@ -8,8 +8,8 @@
     "dist",
     "README.md"
   ],
-  "main": "dist/chainlit-vue-client.js",
-  "module": "dist/chainlit-vue-client.umd.cjs",
+  "main": "dist/index.js",
+  "module": "dist/index.umd.cjs",
   "types": "dist/vite.config.d.ts",
   "author": "5enxia",
   "repository": {
