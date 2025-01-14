@@ -1,3 +1,4 @@
+import { storeToRefs } from "pinia";
 import { useStateStore } from "./state";
 
 export interface IToken {
@@ -8,36 +9,26 @@ export interface IToken {
 }
 
 const useChatData = () => {
-  // const loading = useRecoilValue(loadingState);
-  // const elements = useRecoilValue(elementState);
-  // const tasklists = useRecoilValue(tasklistState);
-  // const actions = useRecoilValue(actionState);
-  // const session = useRecoilValue(sessionState);
-  // const askUser = useRecoilValue(askUserState);
-  // const callFn = useRecoilValue(callFnState);
-  // const chatSettingsInputs = useRecoilValue(chatSettingsInputsState);
-  // const chatSettingsValue = useRecoilValue(chatSettingsValueState);
-  // const chatSettingsDefaultValue = useRecoilValue(
-  //   chatSettingsDefaultValueSelector
-  // );
-  const { loadingState: loading } = useStateStore();
-  const { elementState: elements } = useStateStore();
-  const { tasklistState: tasklists } = useStateStore();
-  const { actionState: actions } = useStateStore();
-  const { sessionState: session } = useStateStore();
-  const { askUserState: askUser } = useStateStore();
-  const { callFnState: callFn } = useStateStore();
-  const { chatSettingsInputsState: chatSettingsInputs } = useStateStore();
-  const { chatSettingsValueState: chatSettingsValue } = useStateStore();
-  const { chatSettingsDefaultValue } = useStateStore();
+  const {
+    loadingState: loading,
+    elementState: elements,
+    tasklistState: tasklists,
+    actionState: actions,
+    sessionState: session,
+    askUserState: askUser,
+    callFnState: callFn,
+    chatSettingsInputsState: chatSettingsInputs,
+    chatSettingsValueState: chatSettingsValue,
+    chatSettingsDefaultValue
+  } = storeToRefs(useStateStore());
 
 
-  const connected = session?.socket.connected && !session?.error;
+  const connected = session.value?.socket.connected && !session.value?.error;
   const disabled =
     !connected ||
     loading ||
-    askUser?.spec.type === 'file' ||
-    askUser?.spec.type === 'action';
+    askUser.value?.spec.type === 'file' ||
+    askUser.value?.spec.type === 'action';
 
   return {
     actions,
@@ -49,7 +40,7 @@ const useChatData = () => {
     connected,
     disabled,
     elements,
-    error: session?.error,
+    error: session.value?.error,
     loading,
     tasklists
   };

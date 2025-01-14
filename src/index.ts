@@ -2,7 +2,7 @@ export * from './useChatData';
 export * from './useChatInteract';
 export * from './useChatMessages';
 export * from './useChatSession';
-export * from './useAudio';
+// export * from './useAudio';
 export * from './useConfig';
 export * from './api';
 export * from './types';

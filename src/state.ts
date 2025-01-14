@@ -1,8 +1,6 @@
-import { defineStore, type StoreDefinition } from 'pinia';
-import { isEqual, set } from 'lodash';
-import { ref, computed, watch } from 'vue';
-// import { Socket } from 'socket.io-client';
-// import type { Socket } from 'socket.io-client';
+import { defineStore } from 'pinia';
+import { isEqual } from 'lodash';
+import { ref, computed, watch, nextTick, type Ref, type ComputedRef } from 'vue';
 import { Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,43 +24,64 @@ export interface ISession {
   error?: boolean;
 }
 
-// TODO: Add types
-// export const useStateStore: StoreDefinition = defineStore('state', () => {
-export const useStateStore: any = () => {
+interface State {
+  threadIdToResumeState: Ref<string | undefined>;
+  resumeThreadErrorState: Ref<string | undefined>;
+  chatProfileState: Ref<string | undefined>;
+  sessionIdState: ComputedRef<string>;
+  resetSessionId: () => void;
+  sessionState: Ref<ISession | undefined>;
+  setSessionSocket: (socket: Socket) => void;
+  setSessionError: (error: boolean) => void;
+  actionState: Ref<IAction[]>;
+  setActionState: (callback: (actions: IAction[]) => IAction[]) => void;
+  messagesState: Ref<IStep[]>;
+  setMessagesState: (callback: (messages: IStep[]) => IStep[]) => void;
+  tokenCountState: Ref<number>;
+  setTokenCountState: (callback: (count: number) => number) => void;
+  loadingState: Ref<boolean>;
+  askUserState: Ref<IAsk | undefined>;
+  // WavRecorderState: Ref<WavRecorder>;
+  // WavStreamPlayerState: Ref<WavStreamPlayer>;
+  audioConnectionState: Ref<'connecting' | 'on' | 'off'>;
+  isAiSpeakingState: Ref<boolean>;
+  callFnState: Ref<ICallFn | undefined>;
+  chatSettingsInputsState: Ref<any[]>;
+  resetChatSettings: () => void;
+  chatSettingsDefaultValue: ComputedRef<{ [key: string]: any }>;
+  chatSettingsValueState: Ref<{ [key: string]: any }>;
+  resetChatSettingsValue: () => void;
+  elementState: Ref<IMessageElement[]>;
+  setElementState: (callback: (elements: IMessageElement[]) => IMessageElement[]) => void;
+  tasklistState: Ref<ITasklistElement[]>;
+  setTasklistState: (callback: (tasklists: ITasklistElement[]) => ITasklistElement[]) => void;
+  firstUserInteraction: Ref<string | undefined>;
+  userState: Ref<IUser | undefined | null>;
+  configState: Ref<IChainlitConfig | undefined>;
+  authState: Ref<IAuthConfig | undefined>;
+  threadHistoryState: Ref<ThreadHistory | undefined>;
+  sideViewState: Ref<IMessageElement | undefined>;
+  currentThreadIdState: Ref<string | undefined>;
+}
+
+export const useStateStore = defineStore('state', (): State => {
   const threadIdToResumeState = ref<string | undefined>(undefined);
-  const setThreadIdToResumeState = (threadId: string | undefined) => {
-    threadIdToResumeState.value = threadId;
-  }
-
   const resumeThreadErrorState = ref<string | undefined>(undefined);
-  const setResumeThreadErrorState = (error: string | undefined) => {
-    resumeThreadErrorState.value = error;
-  }
-
   const chatProfileState = ref<string | undefined>(undefined);
-  const setChatProfileState = (profile: string | undefined) => {
-    chatProfileState.value = profile
-  }
-
-  const sessionId = ref<string>(uuidv4());
-
+  const sessionIdAtom = ref<string>(uuidv4());
   const sessionIdState = computed({
-    get: () => sessionId.value,
+    get: () => sessionIdAtom.value,
     set: (newValue) => {
-      sessionId.value = newValue ? uuidv4() : newValue;
+      sessionIdAtom.value = newValue ? uuidv4() : newValue;
     }
   });
-  const resetSessionIdState = () => {
+  const resetSessionId = () => {
     sessionIdState.value = uuidv4();
   }
-
   const sessionState = ref<ISession | undefined>(undefined);
-  const setSessionState = (session: ISession | undefined) => {
-    sessionState.value = session;
-  }
   const setSessionSocket = (socket: Socket) => {
     sessionState.value?.socket.removeAllListeners()
-    sessionState.value?.socket.removeAllListeners()
+    sessionState.value?.socket.close()
     if (sessionState.value) {
       sessionState.value.socket = socket;
     }
@@ -74,61 +93,32 @@ export const useStateStore: any = () => {
   }
 
   const actionState = ref<IAction[]>([]);
-  const setActionState = (actions: IAction[]) => {
-    actionState.value = actions;
-  }
-  const setActionState2 = (callback: (actions: IAction[]) => IAction[]) => {
+  const setActionState = (callback: (actions: IAction[]) => IAction[]) => {
     actionState.value = callback(actionState.value);
   }
 
   const messagesState = ref<IStep[]>([]);
-  const setMessagesState = (messages: IStep[]) => {
-    messagesState.value = messages;
-  }
-  const setMessagesState2 = (callback: (messages: IStep[]) => IStep[]) => {
+  const setMessagesState = (callback: (messages: IStep[]) => IStep[]) => {
     messagesState.value = callback(messagesState.value);
   }
 
   const tokenCountState = ref<number>(0);
-  const setTokenCountState = (count: number) => {
-    tokenCountState.value = count;
-  }
-  const setTokenCountState2 = (callback: (count: number) => number) => {
+  const setTokenCountState = (callback: (count: number) => number) => {
     tokenCountState.value = callback(tokenCountState.value);
   }
 
   const loadingState = ref<boolean>(false);
-  const setLoadingState = (status: boolean) => {
-    loadingState.value = status;
-  }
 
   const askUserState = ref<IAsk | undefined>(undefined);
-  const setAskUserState = (ask: IAsk | undefined) => {
-    askUserState.value = ask;
-  }
 
   // const WavRecorderState = ref<WavRecorder>(new WavRecorder());
   // const WavStreamPlayerState = ref<WavStreamPlayer>(new WavStreamPlayer());
   const audioConnectionState = ref<'connecting' | 'on' | 'off'>('off');
-  const setAudioConnectionState = (status: 'connecting' | 'on' | 'off') => {
-    audioConnectionState.value = status;
-  }
-
   const isAiSpeakingState = ref<boolean>(false);
-  const setIsAiSpeakingState = (status: boolean) => {
-    isAiSpeakingState.value = status
-  }
 
   const callFnState = ref<ICallFn | undefined>(undefined);
-  const setCallFnState = (callFn: ICallFn | undefined) => {
-    callFnState.value = callFn;
-  }
-
   const chatSettingsInputsState = ref<any[]>([]);
-  const setChatSettingsInputsState = (inputs: any[]) => {
-    chatSettingsInputsState.value = inputs;
-  }
-  const resetChatSettingsInputState = () => {
+  const resetChatSettings = () => {
     chatSettingsValueState.value = chatSettingsDefaultValue.value;
   }
 
@@ -143,61 +133,34 @@ export const useStateStore: any = () => {
   });
 
   const chatSettingsValueState = ref(chatSettingsDefaultValue.value);
-  const setChatSettingsValueState = (value: any) => {
-    chatSettingsValueState.value = value;
-  };
-  const resetChatSettingsValueState  = () => {
+  const resetChatSettingsValue = () => {
     chatSettingsValueState.value = chatSettingsDefaultValue.value;
   }
 
   const elementState = ref<IMessageElement[]>([]);
-  const setElementState = (elements: IMessageElement[]) => {
-    elementState.value = elements;
-  }
-  const setElementState2 = (callback: (elements: IMessageElement[]) => IMessageElement[]) => {
+  const setElementState = (callback: (elements: IMessageElement[]) => IMessageElement[]) => {
     elementState.value = callback(elementState.value);
   }
 
   const tasklistState = ref<ITasklistElement[]>([]);
-  const setTasklistState = (tasklists: ITasklistElement[]) => {
-    tasklistState.value = tasklists;
-  }
-  const setTasklistState2 = (callback: (tasklists: ITasklistElement[]) => ITasklistElement[]) => {
+  const setTasklistState = (callback: (tasklists: ITasklistElement[]) => ITasklistElement[]) => {
     tasklistState.value = callback(tasklistState.value);
   }
 
   const firstUserInteraction = ref<string | undefined>(undefined);
-  const setFirstUserInteraction = (threadId: string | undefined) => {
-    firstUserInteraction.value = threadId;
-  }
-
   const userState = ref<IUser | undefined | null>(undefined);
-  const setUserState = (user: IUser | undefined | null) => {
-    userState.value = user;
-  }
-
   const configState = ref<IChainlitConfig | undefined>(undefined);
-  const setConfigState = (config: IChainlitConfig | undefined) => {
-    configState.value = config;
-  }
-
   const authState = ref<IAuthConfig | undefined>(undefined);
-  const setAuthState = (config: IAuthConfig) => {
-    authState.value = config;
-  }
-
   const threadHistoryState = ref<ThreadHistory | undefined>({
     threads: undefined,
     currentThreadId: undefined,
     timeGroupedThreads: undefined,
     pageInfo: undefined
   });
-  const setThreadHistoryState = (history: ThreadHistory | undefined) => {
-    threadHistoryState.value = history;
-  }
 
-  watch(threadHistoryState, (newValue, oldValue) => {
+  watch(threadHistoryState, async (newValue, oldValue) => {
     if (newValue?.threads && !isEqual(newValue.threads, oldValue?.timeGroupedThreads)) {
+      await nextTick(); // DOM更新を待つ
       threadHistoryState.value = {
         ...newValue,
         timeGroupedThreads: groupByDate(newValue.threads),
@@ -206,82 +169,46 @@ export const useStateStore: any = () => {
   }, { deep: true });
 
   const sideViewState = ref<IMessageElement | undefined>(undefined);
-  const setSideViewState = (element: IMessageElement | undefined) => {
-    sideViewState.value = element;
-  };
   const currentThreadIdState = ref<string | undefined>(undefined);
-  const setCurrentThreadIdState = (threadId: string | undefined) => {
-    currentThreadIdState.value = threadId;
-  };
-  watch(currentThreadIdState, (newValue, oldValue) => {
-    if (newValue && newValue !== oldValue) {
-      setThreadHistoryState({
-        ...threadHistoryState.value,
-        currentThreadId: newValue
-      });
-    }
-  })
 
   return {
     threadIdToResumeState,
-    setThreadIdToResumeState,
     resumeThreadErrorState,
-    setResumeThreadErrorState,
     chatProfileState,
-    setChatProfileState,
     sessionIdState,
-    resetSessionIdState,
+    resetSessionId,
+    // @ts-ignore
     sessionState,
-    setSessionState,
     setSessionSocket,
     setSessionError,
     actionState,
     setActionState,
-    setActionState2,
     messagesState,
     setMessagesState,
-    setMessagesState2,
     tokenCountState,
     setTokenCountState,
-    setTokenCountState2,
     loadingState,
-    setLoadingState,
     askUserState,
-    setAskUserState,
     // WavRecorderState,
     // WavStreamPlayerState,
     audioConnectionState,
-    setAudioConnectionState,
     isAiSpeakingState,
-    setIsAiSpeakingState,
     callFnState,
-    setCallFnState,
     chatSettingsInputsState,
-    setChatSettingsInputsState,
-    resetChatSettingsInputState,
+    resetChatSettings,
     chatSettingsDefaultValue,
     chatSettingsValueState,
-    resetChatSettingsValueState,
+    resetChatSettingsValue,
     elementState,
     setElementState,
-    setElementState2,
     tasklistState,
     setTasklistState,
-    setTasklistState2,
     firstUserInteraction,
-    setFirstUserInteraction,
     userState,
-    setUserState,
     configState,
-    setConfigState,
     authState,
-    setAuthState,
     threadHistoryState,
-    setThreadHistoryState,
     sideViewState,
-    setSideViewState,
     currentThreadIdState,
-    setCurrentThreadIdState
   };
-// });
-}
+})

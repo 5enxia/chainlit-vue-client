@@ -10,9 +10,9 @@ export const useAuth = () => {
   const { user, setUserFromAPI } = useUserManagement();
 
   const isReady =
-    !!authConfig && (!authConfig.requireLogin || user !== undefined);
+    !!authConfig && (!authConfig.value?.requireLogin || user !== undefined);
 
-  if (authConfig && !authConfig.requireLogin) {
+  if (authConfig && !authConfig.value?.requireLogin) {
     return {
       data: authConfig,
       user: null,

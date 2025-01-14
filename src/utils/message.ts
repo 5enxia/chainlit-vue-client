@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
 
-import type { IStep } from '@/types';
+import type { IStep } from '..';
 
 const nestMessages = (messages: IStep[]): IStep[] => {
   let nestedMessages: IStep[] = [];

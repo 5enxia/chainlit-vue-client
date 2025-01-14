@@ -4,165 +4,127 @@ import { addMessage } from '@/utils/message';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useChainlitContext } from '@/context';
+import { storeToRefs } from 'pinia';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 const useChatInteract = () => {
-  // const client = useContext(ChainlitContext);
   const client = useChainlitContext();
-  // const session = useRecoilValue(sessionState);
-  const { sessionState: session } = useStateStore();
-  // const askUser = useRecoilValue(askUserState);
-  const { askUserState: askUser } = useStateStore();
-  // const sessionId = useRecoilValue(sessionIdState);
-  const { sessionIdState: sessionId } = useStateStore();
+  const store = useStateStore();
+  const {
+    sessionState: session,
+    askUserState: askUser,
+    sessionIdState: sessionId,
 
-  // const resetChatSettings = useResetRecoilState(chatSettingsInputsState);
-  const { resetChatSettingsInputState: resetChatSettings } = useStateStore();
-  // const resetSessionId = useResetRecoilState(sessionIdState);
-  const { resetSessionIdState: resetSessionId } = useStateStore();
-  // const resetChatSettingsValue = useResetRecoilState(chatSettingsValueState);
-  const { resetChatSettingsValueState: resetChatSettingsValue } = useStateStore();
+    firstUserInteraction,
+    loadingState: loading,
+    messagesState: messages,
+    elementState: elements,
+    tasklistState: tasklists,
+    actionState: actions,
+    tokenCountState: tokenCount,
+    threadIdToResumeState: idToResume,
+    sideViewState: sideView,
+    currentThreadIdState: currentThreadId,
+  } = storeToRefs(store);
 
-  // const setFirstUserInteraction = useSetRecoilState(firstUserInteraction);
-  const { setFirstUserInteraction } = useStateStore();
-  // const setLoading = useSetRecoilState(loadingState);
-  const { setLoadingState: setLoading } = useStateStore();
-  // const setMessages = useSetRecoilState(messagesState);
-  const { setMessagesState: setMessages, setMessagesState2 } = useStateStore();
-  // const setElements = useSetRecoilState(elementState);
-  const { setElementState: setElements } = useStateStore();
-  // const setTasklists = useSetRecoilState(tasklistState);
-  const { setTasklistState: setTasklists } = useStateStore()
-  // const setActions = useSetRecoilState(actionState);
-  const { setActionState: setActions } = useStateStore();
-  // const setTokenCount = useSetRecoilState(tokenCountState);
-  const { setTokenCountState: setTokenCount } = useStateStore();
-  // const setIdToResume = useSetRecoilState(threadIdToResumeState);
-  const { setThreadIdToResumeState: setIdToResume } = useStateStore();
-  // const setSideView = useSetRecoilState(sideViewState);
-  const { setSideViewState: setSideView } = useStateStore();
-  // const setCurrentThreadId = useSetRecoilState(currentThreadIdState);
-  const { setCurrentThreadIdState: setCurrentThreadId } = useStateStore();
+  const {
+    resetChatSettings,
+    resetSessionId,
+    resetChatSettingsValue,
+    setMessagesState
+  } = store
 
-  // const clear = useCallback(() => {
   const clear = () => {
-    session?.socket.emit('clear_session');
-    session?.socket.disconnect();
-    setIdToResume(undefined);
+    session.value?.socket.emit('clear_session');
+    session.value?.socket.disconnect();
+    idToResume.value = undefined
     resetSessionId();
-    setFirstUserInteraction(undefined);
-    setMessages([]);
-    setElements([]);
-    setTasklists([]);
-    setActions([]);
-    setTokenCount(0);
+    firstUserInteraction.value = undefined;
+    messages.value = [];
+    elements.value = [];
+    tasklists.value = [];
+    actions.value = [];
+    tokenCount.value = 0;
     resetChatSettings();
     resetChatSettingsValue();
-    setSideView(undefined);
-    setCurrentThreadId(undefined);
-  } // , [session]);
+    sideView.value = undefined;
+    currentThreadId.value = undefined;
+  }
 
-  const sendMessage = // useCallback(
-    (
-      message: PartialBy<IStep, 'createdAt' | 'id'>,
-      fileReferences: IFileRef[] = []
-    ) => {
-      if (!message.id) {
-        message.id = uuidv4();
-      }
-      if (!message.createdAt) {
-        message.createdAt = new Date().toISOString();
-      }
-      // setMessages((oldMessages) => addMessage(oldMessages, message as IStep));
-      setMessagesState2((oldMessages) => addMessage(oldMessages, message as IStep));
+  const sendMessage = (
+    message: PartialBy<IStep, 'createdAt' | 'id'>,
+    fileReferences: IFileRef[] = []
+  ) => {
+    if (!message.id) {
+      message.id = uuidv4();
+    }
+    if (!message.createdAt) {
+      message.createdAt = new Date().toISOString();
+    }
+    setMessagesState((oldMessages) => addMessage(oldMessages, message as IStep));
 
-      session?.socket.emit('client_message', { message, fileReferences });
-    } // ,
-  //   [session?.socket]
-  // );
+    session.value?.socket.emit('client_message', { message, fileReferences });
+  }
 
-  const editMessage = // useCallback(
-    (message: IStep) => {
-      session?.socket.emit('edit_message', { message });
-    } // ,
-  //   [session?.socket]
-  // );
+  const editMessage =  (message: IStep) => {
+    session.value?.socket.emit('edit_message', { message });
+  }
 
-  const windowMessage = // useCallback(
-    (data: any) => {
-      session?.socket.emit('window_message', data);
-    } //,
-  //   [session?.socket]
-  // );
+  const windowMessage = (data: any) => {
+    session.value?.socket.emit('window_message', data);
+  }
 
-  // const startAudioStream = useCallback(() => {
   const startAudioStream = () => {
-    session?.socket.emit('audio_start');
-  } //, [session?.socket]);
+    session.value?.socket.emit('audio_start');
+  }
 
-  const sendAudioChunk = // useCallback(
-    (
-      isStart: boolean,
-      mimeType: string,
-      elapsedTime: number,
-      data: Int16Array
-    ) => {
-      session?.socket.emit('audio_chunk', {
-        isStart,
-        mimeType,
-        elapsedTime,
-        data
-      });
-    } // ,
-  //   [session?.socket]
-  // );
+  const sendAudioChunk = (
+    isStart: boolean,
+    mimeType: string,
+    elapsedTime: number,
+    data: Int16Array
+  ) => {
+    session.value?.socket.emit('audio_chunk', {
+      isStart,
+      mimeType,
+      elapsedTime,
+      data
+    });
+  }
 
-  // const endAudioStream = useCallback(() => {
   const endAudioStream = () => {
-    session?.socket.emit('audio_end');
-  } // , [session?.socket]);
+    session.value?.socket.emit('audio_end');
+  }
 
-  const replyMessage = // useCallback(
-    (message: IStep) => {
-      if (askUser) {
-        if (askUser.parentId) message.parentId = askUser.parentId;
-        // setMessages((oldMessages) => addMessage(oldMessages, message));
-        setMessagesState2((oldMessages) => addMessage(oldMessages, message));
-        askUser.callback(message);
-      }
-    } // ,
-  //   [askUser]
-  // );
+  const replyMessage = (message: IStep) => {
+    if (askUser.value) {
+      if (askUser.value.parentId) message.parentId = askUser.value.parentId;
+      setMessagesState((oldMessages) => addMessage(oldMessages, message));
+      askUser.value.callback(message);
+    }
+  }
 
-  const updateChatSettings = // useCallback(
-    (values: object) => {
-      session?.socket.emit('chat_settings_change', values);
-    } // ,
-  //   [session?.socket]
-  // );
+  const updateChatSettings = (values: object) => {
+    session.value?.socket.emit('chat_settings_change', values);
+  }
 
-  // const stopTask = useCallback(() => {
   const stopTask = () => {
-    // setMessages((oldMessages) =>
-    setMessagesState2((oldMessages) =>
+    setMessagesState((oldMessages) =>
       oldMessages.map((m) => {
         m.streaming = false;
         return m;
       })
     );
 
-    setLoading(false);
+    loading.value = false;
 
-    session?.socket.emit('stop');
-  } // , [session?.socket]);
+    session.value?.socket.emit('stop');
+  }
 
-  const uploadFile = // useCallback(
-    (file: File, onProgress: (progress: number) => void) => {
-      return client.uploadFile(file, onProgress, sessionId);
-    } // ,
-  //   [sessionId]
-  // );
+  const uploadFile = (file: File, onProgress: (progress: number) => void) => {
+    return client.uploadFile(file, onProgress, sessionId.value);
+  }
 
   return {
     uploadFile,
@@ -175,7 +137,7 @@ const useChatInteract = () => {
     sendAudioChunk,
     endAudioStream,
     stopTask,
-    setIdToResume,
+    idToResume,
     updateChatSettings
   };
 };

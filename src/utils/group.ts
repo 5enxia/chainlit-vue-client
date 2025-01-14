@@ -1,4 +1,4 @@
-import type { IThread } from '@/types';
+import type { IThread } from 'src/types';
 
 export const groupByDate = (data: IThread[]) => {
   const groupedData: { [key: string]: IThread[] } = {};

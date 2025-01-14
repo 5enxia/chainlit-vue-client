@@ -3,9 +3,11 @@ import type { IUser } from '@/types';
 
 import { useApi } from '../api';
 import { useAuthStateStore } from './state';
+import { storeToRefs } from 'pinia';
 
 export const useUserManagement = () => {
-  const { user, setUser } = useAuthStateStore();
+  const store = useAuthStateStore();
+  const { user } = storeToRefs(store);
 
   const {
     data: userData,
@@ -16,15 +18,15 @@ export const useUserManagement = () => {
 
   watch(userData, (newVal) => {
     if (newVal) {
-      setUser(newVal);
+      user.value = newVal;
     } else if (isLoading.value) {
-      setUser(undefined);
+      user.value = undefined;
     }
   });
 
   watch(error, (newVal) => {
     if (newVal) {
-      setUser(null);
+      user.value = null;
     }
   });
 

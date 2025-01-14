@@ -1,12 +1,12 @@
 import { watch } from 'vue';
 import { useApi, useAuth } from '@/api';
-// import { configState } from './state';
 import { useStateStore } from '@/state';
 import type { IChainlitConfig } from '@/types';
+import { storeToRefs } from 'pinia';
 
 const useConfig = () => {
-  // const [config, setConfig] = useRecoilState(configState);
-  const { configState: config, setConfigState: setConfig } = useStateStore();
+  const store = useStateStore();
+  const { configState: config } = storeToRefs(store);
   const { isAuthenticated } = useAuth();
   const language = navigator.language || 'en-US';
 
@@ -14,13 +14,9 @@ const useConfig = () => {
     !config && isAuthenticated ? `/project/settings?language=${language}` : null
   );
 
-  // useEffect(() => {
-  //   if (!data) return;
-  //   setConfig(data);
-  // }, [data, setConfig]);
   watch(data, (newValue) => {
     if (!newValue) return;
-    setConfig(newValue);
+    config.value = newValue;
   })
 
   return { config, error, isLoading, language };

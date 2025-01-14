@@ -1,13 +1,9 @@
-// import { useContext, useMemo } from 'react';
+import { computed } from 'vue';
 import { ChainlitAPI } from '@/api';
-// import { ChainlitContext } from 'src/context';
 import { useChainlitContext } from '@/context';
-// import useSWR, { SWRConfig, SWRConfiguration } from 'swr';
 import useSWRV, { type IConfig } from 'swrv';
 
-// import { useAuthState } from './auth/state';
-// import { useAuthStateStore } from './auth/state';
-import { computed } from 'vue';
+import { useAuthStateStore } from './auth/state';
 
 const fetcher = async (client: ChainlitAPI, endpoint: string) => {
   const res = await client.get(endpoint);
@@ -54,70 +50,37 @@ function useApi<T>(
   // { ...swrConfig }: SWRConfiguration = {}
   { ...swrConfig }: IConfig = {}
 ) {
-  // const client = useContext(ChainlitContext);
   const client = useChainlitContext();
-  // const { setUser } = useAuthState();
-  // const { setUser } = useAuthStateStore();
+  const store = useAuthStateStore();
+  const { user } = store;
 
-  // Memoize the fetcher function to avoid recreating it on every render
-  // const memoizedFetcher = useMemo(
-  //   () =>
-  //     ([url]: [url: string]) => {
-  //       if (!swrConfig.onErrorRetry) {
-  //         swrConfig.onErrorRetry = (...args) => {
-  //           const [err] = args;
+  const memoizedFetcher = ([url]: [url: string]) => {
+    // if (!swrConfig.onErrorRetry) {
+    //   swrConfig.onErrorRetry = (...args) => {
+    //     const [err] = args;
 
-  //           // Don't do automatic retry for 401 - it just means we're not logged in (yet).
-  //           if (err.status === 401) {
-  //             setUser(null);
-  //             return;
-  //           }
+    //     // Don't do automatic retry for 401 - it just means we're not logged in (yet).
+    //     if (err.status === 401) {
+    //       setUser(null);
+    //       return;
+    //     }
 
-  //           // Fall back to default behavior.
-  //           return SWRConfig.defaultValue.onErrorRetry(...args);
-  //         };
-  //       }
+    //     // Fall back to default behavior.
+    //     return SWRConfig.defaultValue.onErrorRetry(...args);
+    //   };
+    // }
 
-  //       const useApiClient = cloneClient(client);
-  //       useApiClient.on401 = useApiClient.onError = undefined;
-  //       return fetcher(useApiClient, url);
-  //     },
-  //   [client]
-  // );
-
-  const memoizedFetcher = computed(() => {
-    return ([url]: [url: string]) => {
-      // if (!swrConfig.onErrorRetry) {
-      //   swrConfig.onErrorRetry = (...args) => {
-      //     const [err] = args;
-
-      //     // Don't do automatic retry for 401 - it just means we're not logged in (yet).
-      //     if (err.status === 401) {
-      //       setUser(null);
-      //       return;
-      //     }
-
-      //     // Fall back to default behavior.
-      //     return SWRConfig.defaultValue.onErrorRetry(...args);
-      //   };
-      // }
-
-      const useApiClient = cloneClient(client);
-      useApiClient.on401 = useApiClient.onError = undefined;
-      return fetcher(useApiClient, url);
-    }
-  })
+    const useApiClient = cloneClient(client);
+    useApiClient.on401 = useApiClient.onError = undefined;
+    return fetcher(useApiClient, url);
+  }
 
   // Use a stable key for useSWR
-  // const swrKey = useMemo(() => {
-  //   return path ? [path] : null;
-  // }, [path]);
-  const swrKey = computed(() => {
+  const swrKey = () => {
     return path ? [path] : null;
-  })
+  }
 
-  // return useSWR<T, Error>(swrKey, memoizedFetcher, swrConfig);
-  return useSWRV<T, Error>(swrKey, memoizedFetcher.value, swrConfig);
+  return useSWRV<T, Error>(swrKey, memoizedFetcher, swrConfig);
 }
 
 export { useApi, fetcher };

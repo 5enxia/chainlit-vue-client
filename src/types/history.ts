@@ -1,4 +1,4 @@
-import type { IThread } from './thread';
+import type { IThread } from 'src/types';
 
 import type { IPageInfo } from '..';
 

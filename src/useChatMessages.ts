@@ -1,12 +1,13 @@
 import { useStateStore } from "@/state";
+import { storeToRefs } from "pinia";
 
 const useChatMessages = () => {
-  // const messages = useRecoilValue(messagesState);
-  // const firstInteraction = useRecoilValue(firstUserInteraction);
-  // const threadId = useRecoilValue(currentThreadIdState);
-  const { messagesState: messages } = useStateStore();
-  const { firstUserInteraction: firstInteraction } = useStateStore();
-  const { currentThreadIdState: threadId } = useStateStore();
+  const store = useStateStore();
+  const {
+    messagesState: messages,
+    firstUserInteraction: firstInteraction,
+    currentThreadIdState: threadId
+  } = storeToRefs(store);
 
   return {
     threadId,

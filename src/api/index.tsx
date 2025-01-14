@@ -1,7 +1,7 @@
-import type { IElement, IThread, IUser } from '@/types';
+import type { IElement, IThread, IUser } from 'src/types';
 
-import type { IAction } from '@/types/action';
-import type { IFeedback } from '@/types/feedback';
+import type { IAction } from 'src/types/action';
+import type { IFeedback } from 'src/types/feedback';
 
 export * from './hooks/auth';
 export * from './hooks/api';

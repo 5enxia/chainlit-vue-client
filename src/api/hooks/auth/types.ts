@@ -1,4 +1,4 @@
-import type { IAuthConfig, IUser } from '@/types';
+import type { IAuthConfig, IUser } from 'src/types';
 
 export interface JWTPayload extends IUser {
   exp: number;
