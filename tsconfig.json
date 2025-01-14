@@ -49,11 +49,7 @@
     "sourceMap": false,
     "strictNullChecks": true,
   },
-  "include": [
-    "vite.config.ts",
-    "src/**/*.ts",
-    "src/**/*.d.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "types": ["@testing-library/jest-dom", "node"],
   "exclude": ["**/test", "**/dist", "**/__tests__"],
 }
