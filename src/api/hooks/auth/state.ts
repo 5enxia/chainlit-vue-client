@@ -6,23 +6,9 @@ import type { IAuthConfig, IUser, ThreadHistory } from '@/types';
 
 export const useAuthStateStore = defineStore('authState', () => {
 
-  const { authState, setAuthState } = useStateStore();
-  const { userState, setUserState} = useStateStore();
-  const { setThreadHistoryState } = useStateStore();
-
-  const authConfig = computed(() => authState);
-  const setAuthConfig = (config: IAuthConfig) => {
-    setAuthState(config);
-  }
-
-  const user = computed(() => userState);
-  const setUser = (newUser: IUser | undefined | null) => {
-    setUserState(newUser);
-  };
-
-  const setThreadHistory = (history: ThreadHistory | undefined) => {
-    setThreadHistoryState(history);
-  };
+  const { authState: authConfig, setAuthState: setAuthConfig } = useStateStore();
+  const { userState: user, setUserState: setUser } = useStateStore();
+  const { setThreadHistoryState: setThreadHistory } = useStateStore();
 
   return {
     authConfig,
