@@ -1,36 +1,6 @@
-import { debounce, set } from 'lodash';
-// import { useCallback, useContext, useEffect } from 'react';
-// import {
-//   useRecoilState,
-//   useRecoilValue,
-//   useResetRecoilState,
-//   useSetRecoilState
-// } from 'recoil';
+import { debounce } from 'lodash';
 import io from 'socket.io-client';
-// import {
-//   actionState,
-//   askUserState,
-//   audioConnectionState,
-//   callFnState,
-//   chatProfileState,
-//   chatSettingsInputsState,
-//   chatSettingsValueState,
-//   currentThreadIdState,
-//   elementState,
-//   firstUserInteraction,
-//   isAiSpeakingState,
-//   loadingState,
-//   messagesState,
-//   resumeThreadErrorState,
-//   sessionIdState,
-//   sessionState,
-//   tasklistState,
-//   threadIdToResumeState,
-//   tokenCountState,
-//   wavRecorderState,
-//   wavStreamPlayerState
-// } from 'src/state';
-import { useStateStore } from './state';
+import { useStateStore } from '@/state';
 import type {
   IAction,
   IElement,
@@ -47,15 +17,11 @@ import {
 } from '@/utils/message';
 
 // import type { OutputAudioChunk } from './types/audio';
-
-// import { ChainlitContext } from './context';
-import { useChainlitContext } from './context';
-import type { IToken } from './useChatData';
-
-import { Socket } from 'socket.io-client';
+import { useChainlitContext } from '@/context';
+import type { IToken } from '@/useChatData';
 
 // TODO: Add types
-const useChatSession = (): any => {
+const useChatSession = () => {
   // const client = useContext(ChainlitContext);
   const client = useChainlitContext();
   // const sessionId = useRecoilValue(sessionIdState);

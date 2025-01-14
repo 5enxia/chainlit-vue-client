@@ -1,11 +1,4 @@
-// import { useRecoilValue } from 'recoil';
-
-// import {
-//   currentThreadIdState,
-//   firstUserInteraction,
-//   messagesState
-// } from './state';
-import { useStateStore } from "./state";
+import { useStateStore } from "@/state";
 
 const useChatMessages = () => {
   // const messages = useRecoilValue(messagesState);

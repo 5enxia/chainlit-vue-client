@@ -5,10 +5,10 @@ const defaultChainlitContext: ChainlitAPI | undefined = undefined;
 
 const ChainlitContextSymbol: InjectionKey<ChainlitAPI> = Symbol('ChainlitContext');
 
-// export function provideChainlitContext() {
-  // const chainlitContext = new ChainlitAPI('http://localhost:8000', 'webapp');
-//   provide(ChainlitContextSymbol, chainlitContext);
-// }
+export function provideChainlitContext() {
+  const chainlitContext = new ChainlitAPI('http://localhost:8000', 'webapp');
+  provide(ChainlitContextSymbol, chainlitContext);
+}
 
 export function useChainlitContext() {
   const context = inject(ChainlitContextSymbol, defaultChainlitContext);

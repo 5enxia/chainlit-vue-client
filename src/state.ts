@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, type StoreDefinition } from 'pinia';
 import { isEqual, set } from 'lodash';
 import { ref, computed, watch } from 'vue';
 // import { Socket } from 'socket.io-client';
@@ -27,7 +27,7 @@ export interface ISession {
 }
 
 // TODO: Add types
-export const useStateStore: any = defineStore('state', () => {
+export const useStateStore: StoreDefinition = defineStore('state', () => {
   const threadIdToResumeState = ref<string | undefined>(undefined);
   const setThreadIdToResumeState = (threadId: string | undefined) => {
     threadIdToResumeState.value = threadId;

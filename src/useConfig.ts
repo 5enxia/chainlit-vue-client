@@ -1,11 +1,8 @@
-// import { useEffect } from 'react';
-// import { useRecoilState } from 'recoil';
-
 import { watch } from 'vue';
-import { useApi, useAuth } from './api';
+import { useApi, useAuth } from '@/api';
 // import { configState } from './state';
-import { useStateStore } from './state';
-import type { IChainlitConfig } from './types';
+import { useStateStore } from '@/state';
+import type { IChainlitConfig } from '@/types';
 
 const useConfig = () => {
   // const [config, setConfig] = useRecoilState(configState);

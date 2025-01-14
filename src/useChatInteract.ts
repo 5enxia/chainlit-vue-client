@@ -1,29 +1,9 @@
-// import { useCallback, useContext } from 'react';
-// import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-// import {
-//   actionState,
-//   askUserState,
-//   chatSettingsInputsState,
-//   chatSettingsValueState,
-//   currentThreadIdState,
-//   elementState,
-//   firstUserInteraction,
-//   loadingState,
-//   messagesState,
-//   sessionIdState,
-//   sessionState,
-//   sideViewState,
-//   tasklistState,
-//   threadIdToResumeState,
-//   tokenCountState
-// } from 'src/state';
-import { useStateStore } from './state';
+import { useStateStore } from '@/state';
 import type { IFileRef, IStep } from 'src/types';
 import { addMessage } from '@/utils/message';
 import { v4 as uuidv4 } from 'uuid';
 
-// import { ChainlitContext } from './context';
-import { useChainlitContext } from './context';
+import { useChainlitContext } from '@/context';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
