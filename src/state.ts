@@ -27,7 +27,8 @@ export interface ISession {
 }
 
 // TODO: Add types
-export const useStateStore: StoreDefinition = defineStore('state', () => {
+// export const useStateStore: StoreDefinition = defineStore('state', () => {
+export const useStateStore: any = () => {
   const threadIdToResumeState = ref<string | undefined>(undefined);
   const setThreadIdToResumeState = (threadId: string | undefined) => {
     threadIdToResumeState.value = threadId;
@@ -282,4 +283,5 @@ export const useStateStore: StoreDefinition = defineStore('state', () => {
     currentThreadIdState,
     setCurrentThreadIdState
   };
-});
+// });
+}
