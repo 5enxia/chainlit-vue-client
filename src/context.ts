@@ -10,18 +10,12 @@ const ChainlitContextSymbol: InjectionKey<ChainlitAPI> = Symbol('ChainlitContext
 //   provide(ChainlitContextSymbol, chainlitContext);
 // }
 
-// export function useChainlitContext() {
-//   const context = inject(ChainlitContextSymbol, defaultChainlitContext);
-//   if (!context) {
-//     throw new Error('useChainlitContext must be used within a provideChainlitContext');
-//   }
-//   return context;
-// }
-
-// export { defaultChainlitContext };
-
-export const useChainlitContext = () => {
-  return new ChainlitAPI('http://localhost:8000', 'webapp');
+export function useChainlitContext() {
+  const context = inject(ChainlitContextSymbol, defaultChainlitContext);
+  if (!context) {
+    throw new Error('useChainlitContext must be used within a provideChainlitContext');
+  }
+  return context;
 }
 
 export { ChainlitContextSymbol };
