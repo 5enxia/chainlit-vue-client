@@ -1,9 +1,8 @@
 {
   "name": "@5enxia/chainlit-vue-client",
-
   "description": "Vue3 Websocket client to connect to your chainlit app.",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "files": [
     "dist",
@@ -22,7 +21,6 @@
     "ai",
     "chain of thought"
   ],
-
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
