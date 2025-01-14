@@ -1,9 +1,11 @@
-import { useChainlitContext } from '@/index';
+// import { useChainlitContext } from '@/index';
+import type { ChainlitAPI } from '@/index';
 import { useAuthStateStore } from './state';
 import { storeToRefs } from 'pinia';
 
-export const useSessionManagement = () => {
-  const apiClient = useChainlitContext();
+// export const useSessionManagement = () => {
+  // const apiClient = useChainlitContext();
+export const useSessionManagement = (apiClient: ChainlitAPI) => {
   const store = useAuthStateStore();
   const { user, threadHistory } = storeToRefs(store);
 

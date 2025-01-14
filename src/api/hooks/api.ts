@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { ChainlitAPI } from '@/api';
-import { useChainlitContext } from '@/context';
+// import { useChainlitContext } from '@/context';
 import useSWRV, { type IConfig } from 'swrv';
 
 import { useAuthStateStore } from './auth/state';
@@ -46,11 +46,12 @@ const cloneClient = (client: ChainlitAPI): ChainlitAPI => {
  * const { data, error, isValidating } = useApi<UserData>('/user');
  */
 function useApi<T>(
+  client: ChainlitAPI,
   path?: string | null,
   // { ...swrConfig }: SWRConfiguration = {}
   { ...swrConfig }: IConfig = {}
 ) {
-  const client = useChainlitContext();
+  // const client = useChainlitContext();
   const store = useAuthStateStore();
   const { user } = store;
 

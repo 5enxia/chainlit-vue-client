@@ -3,13 +3,15 @@ import type { IFileRef, IStep } from 'src/types';
 import { addMessage } from '@/utils/message';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useChainlitContext } from '@/context';
+// import { useChainlitContext } from '@/context';
 import { storeToRefs } from 'pinia';
+import type { ChainlitAPI } from '.';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-const useChatInteract = () => {
-  const client = useChainlitContext();
+// const useChatInteract = () => {
+const useChatInteract = (client: ChainlitAPI) => {
+  // const client = useChainlitContext();
   const store = useStateStore();
   const {
     sessionState: session,

@@ -1,16 +1,17 @@
 import { watch } from 'vue';
-import { useApi, useAuth } from '@/api';
+import { ChainlitAPI, useApi, useAuth } from '@/api';
 import { useStateStore } from '@/state';
 import type { IChainlitConfig } from '@/types';
 import { storeToRefs } from 'pinia';
 
-const useConfig = () => {
+const useConfig = (client: ChainlitAPI) => {
   const store = useStateStore();
   const { configState: config } = storeToRefs(store);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth(client);
   const language = navigator.language || 'en-US';
 
   const { data, error, isValidating: isLoading } = useApi<IChainlitConfig>(
+    client,
     !config && isAuthenticated ? `/project/settings?language=${language}` : null
   );
 
