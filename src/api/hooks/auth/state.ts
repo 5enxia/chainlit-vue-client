@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, storeToRefs } from 'pinia';
 import { useStateStore } from '@/state';
 
 export const useAuthStateStore = defineStore('authState', () => {
@@ -7,7 +7,7 @@ export const useAuthStateStore = defineStore('authState', () => {
     authState: authConfig,
     userState: user,
     threadHistoryState: threadHistory,
-  } = store;
+  } = storeToRefs(store);
 
   return {
     authConfig,

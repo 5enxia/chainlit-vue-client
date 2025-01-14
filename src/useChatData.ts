@@ -9,6 +9,7 @@ export interface IToken {
 }
 
 const useChatData = () => {
+  const store = useStateStore();
   const {
     loadingState: loading,
     elementState: elements,
@@ -20,7 +21,7 @@ const useChatData = () => {
     chatSettingsInputsState: chatSettingsInputs,
     chatSettingsValueState: chatSettingsValue,
     chatSettingsDefaultValue
-  } = storeToRefs(useStateStore());
+  } = storeToRefs(store);
 
 
   const connected = session.value?.socket.connected && !session.value?.error;
