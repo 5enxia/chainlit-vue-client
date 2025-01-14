@@ -4,15 +4,15 @@ import { addMessage } from '@/utils/message';
 import { v4 as uuidv4 } from 'uuid';
 
 // import { useChainlitContext } from '@/context';
-import { storeToRefs } from 'pinia';
-import type { ChainlitAPI } from '.';
+import { storeToRefs, type Store } from 'pinia';
+import type { ChainlitAPI, State } from '.';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 // const useChatInteract = () => {
-const useChatInteract = (client: ChainlitAPI) => {
+const useChatInteract = (client: ChainlitAPI, store: Store<"state", State>) => {
   // const client = useChainlitContext();
-  const store = useStateStore();
+  // const store = useStateStore();
   const {
     sessionState: session,
     askUserState: askUser,

@@ -1,13 +1,14 @@
 // import { useChainlitContext } from '@/index';
-import type { ChainlitAPI } from '@/index';
-import { useAuthStateStore } from './state';
-import { storeToRefs } from 'pinia';
+import type { ChainlitAPI, State } from '@/index';
+// import { useAuthStateStore } from './state';
+import { storeToRefs, type Store } from 'pinia';
 
 // export const useSessionManagement = () => {
   // const apiClient = useChainlitContext();
-export const useSessionManagement = (apiClient: ChainlitAPI) => {
-  const store = useAuthStateStore();
-  const { user, threadHistory } = storeToRefs(store);
+export const useSessionManagement = (apiClient: ChainlitAPI, store: Store<"state", State>) => {
+  // const store = useAuthStateStore();
+  // const { user, threadHistory } = storeToRefs(store);
+  const { userState: user, threadHistoryState: threadHistory } = storeToRefs(store);
 
   const logout = async (reload = false): Promise<void> => {
     await apiClient.logout();

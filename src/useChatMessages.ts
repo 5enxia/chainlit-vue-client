@@ -1,8 +1,8 @@
-import { useStateStore } from "@/state";
-import { storeToRefs } from "pinia";
+import { useStateStore, type State } from "@/state";
+import { storeToRefs, type Store } from "pinia";
 
-const useChatMessages = () => {
-  const store = useStateStore();
+const useChatMessages = (store: Store<"state", State>) => {
+  // const store = useStateStore();
   const {
     messagesState: messages,
     firstUserInteraction: firstInteraction,

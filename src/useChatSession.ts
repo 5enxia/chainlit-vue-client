@@ -20,13 +20,13 @@ import {
 // import type { OutputAudioChunk } from './types/audio';
 // import { useChainlitContext } from '@/context';
 import type { IToken } from '@/useChatData';
-import { storeToRefs } from 'pinia';
-import type { ChainlitAPI } from '.';
+import { storeToRefs, type Store } from 'pinia';
+import type { ChainlitAPI, State } from '.';
 
 // const useChatSession = () => {
   // const client = useChainlitContext();
-const useChatSession = (client: ChainlitAPI) => {
-  const store = useStateStore();
+const useChatSession = (client: ChainlitAPI, store: Store<"state", State>) => {
+  // const store = useStateStore();
   const {
     sessionIdState: sessionId,
 

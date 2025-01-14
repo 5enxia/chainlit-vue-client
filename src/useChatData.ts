@@ -1,5 +1,5 @@
-import { storeToRefs } from "pinia";
-import { useStateStore } from "./state";
+import { storeToRefs, type Store } from "pinia";
+import { useStateStore, type State } from "./state";
 
 export interface IToken {
   id: number | string;
@@ -8,8 +8,8 @@ export interface IToken {
   isInput: boolean;
 }
 
-const useChatData = () => {
-  const store = useStateStore();
+const useChatData = (store: Store<"state", State>) => {
+  // const store = useStateStore();
   const {
     loadingState: loading,
     elementState: elements,

@@ -24,7 +24,7 @@ export interface ISession {
   error?: boolean;
 }
 
-interface State {
+export interface State {
   threadIdToResumeState: Ref<string | undefined>;
   resumeThreadErrorState: Ref<string | undefined>;
   chatProfileState: Ref<string | undefined>;
