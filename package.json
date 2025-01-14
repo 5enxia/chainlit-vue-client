@@ -2,7 +2,7 @@
   "name": "@5enxia/chainlit-vue-client",
 
   "description": "Vue3 Websocket client to connect to your chainlit app.",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "files": [
@@ -15,8 +15,13 @@
   "author": "5enxia",
   "repository": {
     "type": "git",
-    "url": "https://github.com/5enxia/chainlit-vue-client"
+    "url": "https://github.com/5enxia/chainlit-vue-client.git"
   },
+  "keywords": [
+    "llm",
+    "ai",
+    "chain of thought"
+  ],
 
   "scripts": {
     "dev": "vite",
@@ -46,10 +51,5 @@
     "vite": "^6.0.5",
     "vite-plugin-dts": "^4.5.0",
     "vue-tsc": "^2.2.0"
-  },
-  "keywords": [
-    "llm",
-    "ai",
-    "chain of thought"
-  ],
+  }
 }
