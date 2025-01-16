@@ -82,9 +82,7 @@ export const useStateStore = defineStore('state', (): State => {
   const setSessionSocket = (socket: Socket) => {
     sessionState.value?.socket.removeAllListeners()
     sessionState.value?.socket.close()
-    if (sessionState.value) {
-      sessionState.value.socket = socket;
-    }
+    sessionState.value = { socket }
   }
   const setSessionError = (error: boolean) => {
     if (sessionState.value) {
