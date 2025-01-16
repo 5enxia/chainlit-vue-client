@@ -1,6 +1,7 @@
 import { ChainlitAPI } from '@/api';
-import useSWRV, { type IConfig } from 'swrv';
 import { useChainlitContext } from '@/index';
+import useSWRV, { type IConfig } from 'swrv';
+
 import { useAuthState } from './auth/state';
 
 const fetcher = async (client: ChainlitAPI, endpoint: string) => {
@@ -45,13 +46,13 @@ const cloneClient = (client: ChainlitAPI): ChainlitAPI => {
  */
 function useApi<T>(
   path?: string | null,
-  // { ...swrConfig }: SWRConfiguration = {}
   { ...swrConfig }: IConfig = {}
 ) {
   const client = useChainlitContext();
   const { user } = useAuthState();
 
   const memoizedFetcher = ([url]: [url: string]) => {
+    // TODO: Handle Error Retry
     // if (!swrConfig.onErrorRetry) {
     //   swrConfig.onErrorRetry = (...args) => {
     //     const [err] = args;

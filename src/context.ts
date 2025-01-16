@@ -1,4 +1,5 @@
 import { inject, type InjectionKey, type App } from "vue";
+
 import { ChainlitAPI } from "./api";
 
 const defaultChainlitContext: ChainlitAPI | undefined = undefined;
@@ -15,7 +16,7 @@ export const createChainlit = (api: ChainlitAPI): Chainlit => {
       app.provide(ChainlitContextSymbol, api);
     },
   };
-}
+};
 
 export const useChainlitContext = () => {
   const context = inject(ChainlitContextSymbol, defaultChainlitContext);
@@ -25,6 +26,6 @@ export const useChainlitContext = () => {
     );
   }
   return context;
-}
+};
 
 export { ChainlitContextSymbol };

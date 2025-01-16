@@ -22,8 +22,8 @@ export const useUserManagement = () => {
     }
   });
 
-  watch(error, (newVal) => {
-    if (newVal) {
+  watch(error, () => {
+    if (error.value) {
       user.value = null;
     }
   });

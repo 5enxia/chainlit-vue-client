@@ -1,5 +1,5 @@
-import { useStateStore, type State } from "@/state";
-import { storeToRefs, type Store } from "pinia";
+import { storeToRefs } from "pinia";
+import { useStateStore } from "@/state";
 
 const useChatMessages = () => {
   const store = useStateStore()

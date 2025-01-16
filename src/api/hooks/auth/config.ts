@@ -10,9 +10,9 @@ export const useAuthConfig = () => {
     authConfig.value ? null : '/auth/config'
   );
 
-  watch(authConfigData, (newVal) => {
-    if (newVal) {
-      authConfig.value = newVal;
+  watch(authConfigData, () => {
+    if (authConfigData.value) {
+      authConfig.value = authConfigData.value;
     }
   });
 

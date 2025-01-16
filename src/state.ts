@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia';
 import { isEqual } from 'lodash';
+import { defineStore } from 'pinia';
 import { ref, computed, watch, nextTick, type Ref, type ComputedRef } from 'vue';
 import { Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +31,7 @@ export interface State {
   sessionIdState: ComputedRef<string>;
   resetSessionId: () => void;
   sessionState: Ref<ISession | undefined>;
-  setSessionSocket: (socket: Socket) => void;
+  setSession: (socket: Socket) => void;
   setSessionError: (error: boolean) => void;
   actionState: Ref<IAction[]>;
   setActionState: (callback: (actions: IAction[]) => IAction[]) => void;
@@ -66,9 +66,13 @@ export interface State {
 
 export const useStateStore = defineStore('state', (): State => {
   const threadIdToResumeState = ref<string | undefined>(undefined);
+
   const resumeThreadErrorState = ref<string | undefined>(undefined);
+
   const chatProfileState = ref<string | undefined>(undefined);
+
   const sessionIdAtom = ref<string>(uuidv4());
+
   const sessionIdState = computed({
     get: () => sessionIdAtom.value,
     set: (newValue) => {
@@ -78,8 +82,9 @@ export const useStateStore = defineStore('state', (): State => {
   const resetSessionId = () => {
     sessionIdState.value = uuidv4();
   }
+
   const sessionState = ref<ISession | undefined>(undefined);
-  const setSessionSocket = (socket: Socket) => {
+  const setSession = (socket: Socket) => {
     sessionState.value?.socket.removeAllListeners()
     sessionState.value?.socket.close()
     sessionState.value = { socket }
@@ -110,17 +115,20 @@ export const useStateStore = defineStore('state', (): State => {
   const askUserState = ref<IAsk | undefined>(undefined);
 
   // const WavRecorderState = ref<WavRecorder>(new WavRecorder());
+
   // const WavStreamPlayerState = ref<WavStreamPlayer>(new WavStreamPlayer());
+
   const audioConnectionState = ref<'connecting' | 'on' | 'off'>('off');
+
   const isAiSpeakingState = ref<boolean>(false);
 
   const callFnState = ref<ICallFn | undefined>(undefined);
   const chatSettingsInputsState = ref<any[]>([]);
   const resetChatSettings = () => {
-    chatSettingsValueState.value = chatSettingsDefaultValue.value;
+    chatSettingsValueState.value = chatSettingsDefaultValueSelector.value;
   }
 
-  const chatSettingsDefaultValue = computed(() => {
+  const chatSettingsDefaultValueSelector = computed(() => {
     const chatSettings = chatSettingsInputsState.value;
     return chatSettings.reduce(
       (form: { [key: string]: any }, input: any) => (
@@ -130,9 +138,9 @@ export const useStateStore = defineStore('state', (): State => {
     );
   });
 
-  const chatSettingsValueState = ref(chatSettingsDefaultValue.value);
+  const chatSettingsValueState = ref(chatSettingsDefaultValueSelector.value);
   const resetChatSettingsValue = () => {
-    chatSettingsValueState.value = chatSettingsDefaultValue.value;
+    chatSettingsValueState.value = chatSettingsDefaultValueSelector.value;
   }
 
   const elementState = ref<IMessageElement[]>([]);
@@ -146,9 +154,13 @@ export const useStateStore = defineStore('state', (): State => {
   }
 
   const firstUserInteraction = ref<string | undefined>(undefined);
+
   const userState = ref<IUser | undefined | null>(undefined);
+
   const configState = ref<IChainlitConfig | undefined>(undefined);
+
   const authState = ref<IAuthConfig | undefined>(undefined);
+
   const threadHistoryState = ref<ThreadHistory | undefined>({
     threads: undefined,
     currentThreadId: undefined,
@@ -158,7 +170,7 @@ export const useStateStore = defineStore('state', (): State => {
 
   watch(threadHistoryState, async (newValue, oldValue) => {
     if (newValue?.threads && !isEqual(newValue.threads, oldValue?.timeGroupedThreads)) {
-      await nextTick(); // DOM更新を待つ
+      await nextTick(); // Wait DOM update
       threadHistoryState.value = {
         ...newValue,
         timeGroupedThreads: groupByDate(newValue.threads),
@@ -167,6 +179,7 @@ export const useStateStore = defineStore('state', (): State => {
   }, { deep: true });
 
   const sideViewState = ref<IMessageElement | undefined>(undefined);
+
   const currentThreadIdState = ref<string | undefined>(undefined);
 
   return {
@@ -177,7 +190,7 @@ export const useStateStore = defineStore('state', (): State => {
     resetSessionId,
     // @ts-ignore
     sessionState,
-    setSessionSocket,
+    setSession,
     setSessionError,
     actionState,
     setActionState,
@@ -194,7 +207,7 @@ export const useStateStore = defineStore('state', (): State => {
     callFnState,
     chatSettingsInputsState,
     resetChatSettings,
-    chatSettingsDefaultValue,
+    chatSettingsDefaultValueSelector,
     chatSettingsValueState,
     resetChatSettingsValue,
     elementState,

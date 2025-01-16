@@ -1,9 +1,9 @@
 import { watch } from 'vue';
-import { ChainlitAPI, useApi, useAuth } from '@/api';
-import { useStateStore, type State } from '@/state';
+import { storeToRefs } from 'pinia';
+import { useStateStore } from '@/state';
+
+import { useApi, useAuth } from '@/api';
 import type { IChainlitConfig } from '@/types';
-import { storeToRefs, type Store } from 'pinia';
-import { useChainlitContext } from '.';
 
 const useConfig = () => {
   const store = useStateStore();

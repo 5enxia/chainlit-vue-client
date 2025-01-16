@@ -1,11 +1,10 @@
+import { storeToRefs } from 'pinia';
 import { useStateStore } from '@/state';
 import type { IFileRef, IStep } from 'src/types';
 import { addMessage } from '@/utils/message';
 import { v4 as uuidv4 } from 'uuid';
 
-// import { useChainlitContext } from '@/context';
-import { storeToRefs, type Store } from 'pinia';
-import { useChainlitContext, type ChainlitAPI, type State } from '.';
+import { useChainlitContext } from '.';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

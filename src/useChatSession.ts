@@ -1,6 +1,7 @@
 import { debounce } from 'lodash';
 import { watch } from 'vue';
 import io from 'socket.io-client';
+import { storeToRefs } from 'pinia';
 import { useStateStore } from '@/state';
 import type {
   IAction,
@@ -18,10 +19,10 @@ import {
 } from '@/utils/message';
 
 // import type { OutputAudioChunk } from './types/audio';
-// import { useChainlitContext } from '@/context';
+
 import type { IToken } from '@/useChatData';
-import { storeToRefs, type Store } from 'pinia';
-import { useChainlitContext, type ChainlitAPI, type State } from '.';
+
+import { useChainlitContext } from '.';
 
 const useChatSession = () => {
   const client = useChainlitContext();
@@ -56,7 +57,7 @@ const useChatSession = () => {
   const {
     resetChatSettingsValue,
 
-    setSessionSocket,
+    setSession,
     setSessionError,
     setTasklistState,
     setElementState,
@@ -64,6 +65,7 @@ const useChatSession = () => {
     setTokenCountState,
   } = store
 
+  // Use currentThreadId as thread id in websocket header
   watch(currentThreadId, () => {
     if (session.value?.socket) {
       session.value.socket.auth['threadId'] = currentThreadId || '';
@@ -96,7 +98,7 @@ const useChatSession = () => {
         chatProfile: chatProfile.value ? encodeURIComponent(chatProfile.value) : ''
       }
     });
-    setSessionSocket(socket);
+    setSession(socket);
 
     socket.on('connect', () => {
       socket.emit('connection_successful');

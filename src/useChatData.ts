@@ -1,5 +1,5 @@
-import { storeToRefs, type Store } from "pinia";
-import { useStateStore, type State } from "./state";
+import { storeToRefs } from "pinia";
+import { useStateStore } from "./state";
 
 export interface IToken {
   id: number | string;
