@@ -11,11 +11,10 @@ export interface Chainlit {
   install: (app: App) => void;
 }
 
-export const createChainlit = (api: ChainlitAPI, pinia: Pinia): Chainlit => {
+export const createChainlit = (api: ChainlitAPI): Chainlit => {
   return {
     install(app: App) {
       app.provide(ChainlitContextSymbol, api);
-      useStateStore(pinia);
     },
   };
 }
