@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 // import { useChainlitContext } from '@/context';
 import { storeToRefs, type Store } from 'pinia';
-import type { ChainlitAPI, State } from '.';
+import { useChainlitContext, type ChainlitAPI, type State } from '.';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 // const useChatInteract = () => {
-const useChatInteract = (client: ChainlitAPI, store: Store<"state", State>) => {
-  // const client = useChainlitContext();
+const useChatInteract = (store: Store<"state", State>) => {
+  const client = useChainlitContext();
   // const store = useStateStore();
   const {
     sessionState: session,

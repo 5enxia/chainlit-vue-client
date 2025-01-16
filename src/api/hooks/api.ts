@@ -4,6 +4,7 @@ import { ChainlitAPI } from '@/api';
 import useSWRV, { type IConfig } from 'swrv';
 import { storeToRefs, type Store } from 'pinia';
 import type { State } from '@/state';
+import { useChainlitContext } from '@/index';
 
 // import { useAuthStateStore } from './auth/state';
 
@@ -48,13 +49,12 @@ const cloneClient = (client: ChainlitAPI): ChainlitAPI => {
  * const { data, error, isValidating } = useApi<UserData>('/user');
  */
 function useApi<T>(
-  client: ChainlitAPI,
   store: Store<"state", State>,
   path?: string | null,
   // { ...swrConfig }: SWRConfiguration = {}
   { ...swrConfig }: IConfig = {}
 ) {
-  // const client = useChainlitContext();
+  const client = useChainlitContext();
   // const store = useAuthStateStore();
   const { userState: user } = storeToRefs(store);
 

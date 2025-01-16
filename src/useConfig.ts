@@ -3,15 +3,16 @@ import { ChainlitAPI, useApi, useAuth } from '@/api';
 import { useStateStore, type State } from '@/state';
 import type { IChainlitConfig } from '@/types';
 import { storeToRefs, type Store } from 'pinia';
+import { useChainlitContext } from '.';
 
-const useConfig = (client: ChainlitAPI, store: Store<"state", State>) => {
+const useConfig = (store: Store<"state", State>) => {
+  const client = useChainlitContext();
   // const store = useStateStore();
   const { configState: config } = storeToRefs(store);
-  const { isAuthenticated } = useAuth(client, store);
+  const { isAuthenticated } = useAuth(store);
   const language = navigator.language || 'en-US';
 
   const { data, error, isValidating: isLoading } = useApi<IChainlitConfig>(
-    client,
     store,
     !config && isAuthenticated ? `/project/settings?language=${language}` : null
   );

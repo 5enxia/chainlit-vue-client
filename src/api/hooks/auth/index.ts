@@ -3,13 +3,14 @@ import type { IAuthConfig, IUser } from '@/types';
 import { useAuthConfig } from './config';
 import { useSessionManagement } from './sessionManagement';
 import { useUserManagement } from './userManagement';
-import type { ChainlitAPI, State } from '@/index';
+import { useChainlitContext, type ChainlitAPI, type State } from '@/index';
 import type { Store } from 'pinia';
 
-export const useAuth = (client: ChainlitAPI, store: Store<"state", State>) => {
-  const { authConfig } = useAuthConfig(client, store);
-  const { logout } = useSessionManagement(client, store);
-  const { user, setUserFromAPI } = useUserManagement(client, store);
+export const useAuth = (store: Store<"state", State>) => {
+  const client = useChainlitContext();
+  const { authConfig } = useAuthConfig(store);
+  const { logout } = useSessionManagement(store);
+  const { user, setUserFromAPI } = useUserManagement(store);
 
   const isReady =
     !!authConfig && (!authConfig.value?.requireLogin || user !== undefined);

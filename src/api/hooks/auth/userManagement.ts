@@ -4,9 +4,10 @@ import type { IUser } from '@/types';
 import { useApi } from '../api';
 // import { useAuthStateStore } from './state';
 import { storeToRefs, type Store } from 'pinia';
-import type { ChainlitAPI, State } from '@/index';
+import { useChainlitContext, type ChainlitAPI, type State } from '@/index';
 
-export const useUserManagement = (client: ChainlitAPI, store: Store<"state", State>) => {
+export const useUserManagement = (store: Store<"state", State>) => {
+  const clinet = useChainlitContext();
   // const store = useAuthStateStore();
   // const { user } = storeToRefs(store);
   const { userState: user } = storeToRefs(store);
@@ -16,7 +17,7 @@ export const useUserManagement = (client: ChainlitAPI, store: Store<"state", Sta
     error,
     isValidating: isLoading,
     mutate: setUserFromAPI
-  } = useApi<IUser>(client, store, '/user');
+  } = useApi<IUser>(store, '/user');
 
   watch(userData, (newVal) => {
     if (newVal) {

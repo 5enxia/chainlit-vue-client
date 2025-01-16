@@ -21,11 +21,11 @@ import {
 // import { useChainlitContext } from '@/context';
 import type { IToken } from '@/useChatData';
 import { storeToRefs, type Store } from 'pinia';
-import type { ChainlitAPI, State } from '.';
+import { useChainlitContext, type ChainlitAPI, type State } from '.';
 
 // const useChatSession = () => {
-  // const client = useChainlitContext();
-const useChatSession = (client: ChainlitAPI, store: Store<"state", State>) => {
+const useChatSession = (store: Store<"state", State>) => {
+  const client = useChainlitContext();
   // const store = useStateStore();
   const {
     sessionIdState: sessionId,
