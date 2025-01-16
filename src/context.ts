@@ -9,7 +9,7 @@ export interface Chainlit {
   install: (app: App) => void;
 }
 
-export function createChainlit(api: ChainlitAPI): Chainlit {
+export const createChainlit = (api: ChainlitAPI): Chainlit => {
   return {
     install(app: App) {
       app.provide(ChainlitContextSymbol, api);
@@ -17,7 +17,7 @@ export function createChainlit(api: ChainlitAPI): Chainlit {
   };
 }
 
-export function useChainlitContext() {
+export const useChainlitContext = () => {
   const context = inject(ChainlitContextSymbol, defaultChainlitContext);
   if (!context) {
     throw new Error(
