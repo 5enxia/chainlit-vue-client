@@ -23,8 +23,7 @@
   ],
   "scripts": {
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview",
-    "publish": "vue-tsc -b && vite build && npm publish"
+    "preview": "vite preview"
   },
   "dependencies": {
     "jwt-decode": "^4.0.0",
