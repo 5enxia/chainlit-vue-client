@@ -1,7 +1,5 @@
 import { inject, type InjectionKey, type App } from "vue";
 import { ChainlitAPI } from "./api";
-import type { Pinia } from "pinia";
-import { useStateStore } from "./state";
 
 const defaultChainlitContext: ChainlitAPI | undefined = undefined;
 

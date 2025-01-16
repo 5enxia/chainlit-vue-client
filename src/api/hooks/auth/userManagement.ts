@@ -2,22 +2,17 @@ import { watch } from 'vue';
 import type { IUser } from '@/types';
 
 import { useApi } from '../api';
-// import { useAuthStateStore } from './state';
-import { storeToRefs, type Store } from 'pinia';
-import { useChainlitContext, type ChainlitAPI, type State } from '@/index';
+import { useAuthState } from './state';
 
-export const useUserManagement = (store: Store<"state", State>) => {
-  const clinet = useChainlitContext();
-  // const store = useAuthStateStore();
-  // const { user } = storeToRefs(store);
-  const { userState: user } = storeToRefs(store);
+export const useUserManagement = () => {
+  const { user } = useAuthState()
 
   const {
     data: userData,
     error,
     isValidating: isLoading,
     mutate: setUserFromAPI
-  } = useApi<IUser>(store, '/user');
+  } = useApi<IUser>('/user');
 
   watch(userData, (newVal) => {
     if (newVal) {

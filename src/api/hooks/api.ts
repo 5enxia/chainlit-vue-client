@@ -1,12 +1,7 @@
-import { computed } from 'vue';
 import { ChainlitAPI } from '@/api';
-// import { useChainlitContext } from '@/context';
 import useSWRV, { type IConfig } from 'swrv';
-import { storeToRefs, type Store } from 'pinia';
-import type { State } from '@/state';
 import { useChainlitContext } from '@/index';
-
-// import { useAuthStateStore } from './auth/state';
+import { useAuthState } from './auth/state';
 
 const fetcher = async (client: ChainlitAPI, endpoint: string) => {
   const res = await client.get(endpoint);
@@ -49,14 +44,12 @@ const cloneClient = (client: ChainlitAPI): ChainlitAPI => {
  * const { data, error, isValidating } = useApi<UserData>('/user');
  */
 function useApi<T>(
-  store: Store<"state", State>,
   path?: string | null,
   // { ...swrConfig }: SWRConfiguration = {}
   { ...swrConfig }: IConfig = {}
 ) {
   const client = useChainlitContext();
-  // const store = useAuthStateStore();
-  const { userState: user } = storeToRefs(store);
+  const { user } = useAuthState();
 
   const memoizedFetcher = ([url]: [url: string]) => {
     // if (!swrConfig.onErrorRetry) {

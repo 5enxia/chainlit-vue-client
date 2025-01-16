@@ -8,8 +8,8 @@ export interface IToken {
   isInput: boolean;
 }
 
-const useChatData = (store: Store<"state", State>) => {
-  // const store = useStateStore();
+const useChatData = () => {
+  const store = useStateStore();
   const {
     loadingState: loading,
     elementState: elements,

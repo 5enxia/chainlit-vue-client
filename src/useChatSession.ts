@@ -23,10 +23,9 @@ import type { IToken } from '@/useChatData';
 import { storeToRefs, type Store } from 'pinia';
 import { useChainlitContext, type ChainlitAPI, type State } from '.';
 
-// const useChatSession = () => {
-const useChatSession = (store: Store<"state", State>) => {
+const useChatSession = () => {
   const client = useChainlitContext();
-  // const store = useStateStore();
+  const store = useStateStore();
   const {
     sessionIdState: sessionId,
 

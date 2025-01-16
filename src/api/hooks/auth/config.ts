@@ -1,16 +1,12 @@
 import { watch } from 'vue';
-import { useChainlitContext, type ChainlitAPI, type IAuthConfig, type State } from '@/index';
+import type { IAuthConfig } from '@/index';
 
 import { useApi } from '../api';
-// import { useAuthStateStore } from './state';
-import { storeToRefs, type Store } from 'pinia';
+import { useAuthState } from './state';
 
-export const useAuthConfig = (store: Store<"state", State>) => {
-  const client = useChainlitContext();
-  // const store = useAuthStateStore();
-  const { authState: authConfig } =  storeToRefs(store)
+export const useAuthConfig = () => {
+  const { authConfig } = useAuthState();
   const { data: authConfigData, isValidating: isLoading } = useApi<IAuthConfig>(
-    store,
     authConfig.value ? null : '/auth/config'
   );
 

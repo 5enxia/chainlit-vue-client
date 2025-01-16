@@ -9,10 +9,9 @@ import { useChainlitContext, type ChainlitAPI, type State } from '.';
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-// const useChatInteract = () => {
-const useChatInteract = (store: Store<"state", State>) => {
+const useChatInteract = () => {
   const client = useChainlitContext();
-  // const store = useStateStore();
+  const store = useStateStore();
   const {
     sessionState: session,
     askUserState: askUser,
