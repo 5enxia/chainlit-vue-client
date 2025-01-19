@@ -17,7 +17,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
 import "./index.css";
-import { ChainlitAPI, createChainlit } from "@5enxia/chainlit-vue-client";
+import { ChainlitAPI, createChainlit } from "chainlit-vue-client";
 
 const CHAINLIT_SERVER = "http://localhost:80/chainlit";
 const apiClient = new ChainlitAPI(CHAINLIT_SERVER, "webapp");
@@ -47,7 +47,7 @@ This composable is responsible for managing the chat session's connection to the
 
 ```vue
 <script setup lang="ts">
-import { useChatSession, useStateStore } from "@5enxia/chainlit-vue-client";
+import { useChatSession, useStateStore } from "chainlit-vue-client";
 import { storeToRefs } from "pinia";
 
 const { connect } = useChatSession();
@@ -89,7 +89,7 @@ This composable provides access to the chat messages and the first user message.
 <script setup lang="ts">
 // Rest of your component logic
 
-import { useChatMessages } from "@5enxia/chainlit-vue-client"
+import { useChatMessages } from "chainlit-vue-client"
 const { messages, firstUserMessage } = useChatMessages();
 </script>
 
@@ -125,7 +125,7 @@ This composable provides access to various chat-related data and states.
 <script setup lang="ts">
 // Rest of your component logic
 
-import { useChatData } from "@5enxia/chainlit-vue-client"
+import { useChatData } from "chainlit-vue-client"
 const { loading, connected, error } = useChatData();
 </script>
 
@@ -156,7 +156,7 @@ This composable provides methods to interact with the chat, such as sending mess
 
 ```vue
 <script setup lang="ts">
-import { useChatInteract } from "@5enxia/chainlit-vue-client";
+import { useChatInteract } from "chainlit-vue-client";
 const { sendMessage, replyMessage } = useChatInteract();
 
 const handleSendMessage = () => {
