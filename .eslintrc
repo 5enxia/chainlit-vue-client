@@ -2,12 +2,13 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "ignorePatterns": ["**/*.jsx"],
+    "ignorePatterns": ["**/*.jsx", "**/*.tsx"],
     "plugins": ["@typescript-eslint"],
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:vue/vue3-recommended"
     ],
     "rules": {
       "@typescript-eslint/no-non-null-assertion": "off",
