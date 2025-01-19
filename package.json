@@ -1,5 +1,5 @@
 {
-  "name": "@5enxia/chainlit-vue-client",
+  "name": "chainlit-vue-client",
   "description": "Vue3 Websocket client to connect to your chainlit app.",
   "private": false,
   "version": "0.0.30",
