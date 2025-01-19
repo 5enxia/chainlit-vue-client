@@ -1,13 +1,13 @@
 ## Overview
 
-The `@5enxia/chainlit-vue-client` package provides a set of Vue plugin as well as an API client to connect to your [Chainlit](https://github.com/Chainlit/chainlit) application from any Vue application. The package includes composables for managing chat sessions, messages, data, and interactions.
+The `chainlit-vue-client` package provides a set of Vue plugin as well as an API client to connect to your [Chainlit](https://github.com/Chainlit/chainlit) application from any Vue application. The package includes composables for managing chat sessions, messages, data, and interactions.
 
 ## Installation
 
 To install the package, run the following command in your project directory:
 
 ```sh
-npm install @5enxia/chainlit-vue-client
+npm install chainlit-vue-client
 ```
 
 This package use [Pinia](https://pinia.vuejs.org/) to manage its state. This means you will have to use your application with Pinia:
