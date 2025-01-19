@@ -49,7 +49,7 @@
     "sourceMap": false,
     "strictNullChecks": true,
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*"],
   "types": ["@testing-library/jest-dom", "node"],
   "exclude": ["**/test", "**/dist", "**/__tests__"],
 }

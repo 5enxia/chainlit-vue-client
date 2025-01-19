@@ -18,7 +18,7 @@ import {
   updateMessageContentById
 } from '@/utils/message';
 
-// import type { OutputAudioChunk } from './types/audio';
+import type { OutputAudioChunk } from './types/audio';
 
 import type { IToken } from '@/useChatData';
 
@@ -36,8 +36,8 @@ const useChatSession = () => {
 
     firstUserInteraction,
     loadingState: loading,
-    // const wavStreamPlayer = useRecoilValue(wavStreamPlayerState);
-    // const wavRecorder = useRecoilValue(wavRecorderState);
+    wavStreamPlayerState: wavStreamPlayer,
+    wavRecorderState: wavRecorder,
     messagesState: messages,
     askUserState: askUser,
     callFnState: callFn,
@@ -122,40 +122,40 @@ const useChatSession = () => {
       window.location.reload();
     });
 
-    // socket.on('audio_connection', async (state: 'on' | 'off') => {
-    //   if (state === 'on') {
-    //     let isFirstChunk = true;
-    //     const startTime = Date.now();
-    //     const mimeType = 'pcm16';
-    //     // Connect to microphone
-    //     await wavRecorder.begin();
-    //     await wavStreamPlayer.connect();
-    //     await wavRecorder.record(async (data) => {
-    //       const elapsedTime = Date.now() - startTime;
-    //       socket.emit('audio_chunk', {
-    //         isStart: isFirstChunk,
-    //         mimeType,
-    //         elapsedTime,
-    //         data: data.mono
-    //       });
-    //       isFirstChunk = false;
-    //     });
-    //     wavStreamPlayer.onStop = () => setIsAiSpeaking(false);
-    //   } else {
-    //     await wavRecorder.end();
-    //     await wavStreamPlayer.interrupt();
-    //   }
-    //   setAudioConnection(state);
-    // });
+    socket.on('audio_connection', async (state: 'on' | 'off') => {
+      if (state === 'on') {
+        let isFirstChunk = true;
+        const startTime = Date.now();
+        const mimeType = 'pcm16';
+        // Connect to microphone
+        await wavRecorder.value.begin();
+        await wavStreamPlayer.value.connect();
+        await wavRecorder.value.record(async (data) => {
+          const elapsedTime = Date.now() - startTime;
+          socket.emit('audio_chunk', {
+            isStart: isFirstChunk,
+            mimeType,
+            elapsedTime,
+            data: data.mono
+          });
+          isFirstChunk = false;
+        });
+        wavStreamPlayer.value.onStop = () => isAiSpeaking.value = false;
+      } else {
+        await wavRecorder.value.end();
+        await wavStreamPlayer.value.interrupt();
+      }
+      audioConnection.value = state;
+    });
 
-    // socket.on('audio_chunk', (chunk: OutputAudioChunk) => {
-    //   wavStreamPlayer.add16BitPCM(chunk.data, chunk.track);
-    //   setIsAiSpeaking(true);
-    // });
+    socket.on('audio_chunk', (chunk: OutputAudioChunk) => {
+      wavStreamPlayer.value.add16BitPCM(chunk.data, chunk.track);
+      isAiSpeaking.value = true;
+    });
 
-    // socket.on('audio_interrupt', () => {
-    //   wavStreamPlayer.interrupt();
-    // });
+    socket.on('audio_interrupt', () => {
+      wavStreamPlayer.value.interrupt();
+    });
 
     socket.on('resume_thread', (thread: IThread) => {
       let _messages: IStep[] = [];

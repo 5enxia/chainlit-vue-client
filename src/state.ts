@@ -17,7 +17,7 @@ import type {
   ThreadHistory
 } from '@/types';
 import { groupByDate } from '@/utils/group';
-// import { WavRecorder, WavStreamPlayer } from './wavtools';
+import { WavRecorder, WavStreamPlayer } from './wavtools';
 
 export interface ISession {
   socket: Socket;
@@ -41,8 +41,8 @@ export interface State {
   setTokenCountState: (callback: (count: number) => number) => void;
   loadingState: Ref<boolean>;
   askUserState: Ref<IAsk | undefined>;
-  // WavRecorderState: Ref<WavRecorder>;
-  // WavStreamPlayerState: Ref<WavStreamPlayer>;
+  wavRecorderState: Ref<WavRecorder>;
+  wavStreamPlayerState: Ref<WavStreamPlayer>;
   audioConnectionState: Ref<'connecting' | 'on' | 'off'>;
   isAiSpeakingState: Ref<boolean>;
   callFnState: Ref<ICallFn | undefined>;
@@ -114,9 +114,9 @@ export const useStateStore = defineStore('state', (): State => {
 
   const askUserState = ref<IAsk | undefined>(undefined);
 
-  // const WavRecorderState = ref<WavRecorder>(new WavRecorder());
+  const wavRecorderState = ref<WavRecorder>(new WavRecorder());
 
-  // const WavStreamPlayerState = ref<WavStreamPlayer>(new WavStreamPlayer());
+  const wavStreamPlayerState = ref<WavStreamPlayer>(new WavStreamPlayer());
 
   const audioConnectionState = ref<'connecting' | 'on' | 'off'>('off');
 
@@ -200,8 +200,8 @@ export const useStateStore = defineStore('state', (): State => {
     setTokenCountState,
     loadingState,
     askUserState,
-    // WavRecorderState,
-    // WavStreamPlayerState,
+    wavRecorderState,
+    wavStreamPlayerState,
     audioConnectionState,
     isAiSpeakingState,
     callFnState,
