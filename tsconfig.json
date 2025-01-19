@@ -2,14 +2,12 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    // "target": "ES2022",
     "target": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    // "moduleResolution": "bundler",
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
@@ -18,9 +16,6 @@
 
     /* Linting */
     "strict": true,
-    // "noUnusedLocals": true,
-    "noUnusedLocals": false,
-    // "noUnusedParameters": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
@@ -30,11 +25,10 @@
     "rootDir": ".",
     "outDir": "dist",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
     "importHelpers": true,
     "types": ["node", "vue"],
-
 
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -42,14 +36,13 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    // "module": "system",
     "noEmitOnError": false,
     "noImplicitAny": false,
     "noImplicitReturns": false,
     "sourceMap": false,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*"],
   "types": ["@testing-library/jest-dom", "node"],
-  "exclude": ["**/test", "**/dist", "**/__tests__"],
+  "exclude": ["**/test", "**/dist", "**/__tests__"]
 }
