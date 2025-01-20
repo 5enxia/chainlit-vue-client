@@ -16,7 +16,6 @@ This package use [Pinia](https://pinia.vuejs.org/) to manage its state. This mea
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createPinia } from "pinia";
-import "./index.css";
 import { ChainlitAPI, createChainlit } from "chainlit-vue-client";
 
 const CHAINLIT_SERVER = "http://localhost:80/chainlit";
@@ -156,6 +155,7 @@ This composable provides methods to interact with the chat, such as sending mess
 
 ```vue
 <script setup lang="ts">
+// Rest of your component logic
 import { useChatInteract } from "chainlit-vue-client";
 const { sendMessage, replyMessage } = useChatInteract();
 
