@@ -30,6 +30,8 @@ app.use(chainlit, { pinia })
 app.mount("#app");
 ```
 
+You can also try it out on a [example project](https://github.com/5enxia/chainlit-vue-frontend-example).
+
 ## Usage
 
 ### `useChatSession`
