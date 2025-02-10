@@ -14,7 +14,7 @@ export const useUserManagement = () => {
     mutate: setUserFromAPI
   } = useApi<IUser>('/user');
 
-  watch(userData, (newVal) => {
+  watch([userData, isLoading], ([newVal]) => {
     if (newVal) {
       user.value = newVal;
     } else if (isLoading.value) {
