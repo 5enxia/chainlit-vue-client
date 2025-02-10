@@ -2,7 +2,7 @@ import { watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useStateStore } from '@/state';
 
-import { useApi, useAuth } from '@/api';
+import { useApiWithRef, useAuth } from '@/api';
 import type { IChainlitConfig } from '@/types';
 
 const useConfig = () => {
@@ -11,9 +11,7 @@ const useConfig = () => {
   const { isAuthenticated } = useAuth();
   const language = navigator.language || 'en-US';
 
-  const { data, error, isValidating: isLoading } = useApi<IChainlitConfig>(
-    !config.value && isAuthenticated ? `/project/settings?language=${language}` : null
-  );
+  const { data, error, isValidating: isLoading } = useApiWithRef<IChainlitConfig>(() => !config.value && isAuthenticated.value ? `/project/settings?language=${language}` : null);
 
   watch(data, (newValue) => {
     if (!newValue) return;

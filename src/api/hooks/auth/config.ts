@@ -1,13 +1,13 @@
 import { watch } from 'vue';
 import type { IAuthConfig } from '@/index';
 
-import { useApi } from '../api';
+import { useApiWithRef } from '../api';
 import { useAuthState } from './state';
 
 export const useAuthConfig = () => {
   const { authConfig } = useAuthState();
-  const { data: authConfigData, isValidating: isLoading } = useApi<IAuthConfig>(
-    authConfig.value ? null : '/auth/config'
+  const { data: authConfigData, isValidating: isLoading } = useApiWithRef<IAuthConfig>(
+    () => authConfig.value ? null : '/auth/config'
   );
 
   watch(authConfigData, () => {

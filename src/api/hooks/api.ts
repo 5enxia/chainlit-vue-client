@@ -79,4 +79,36 @@ function useApi<T>(
   return useSWRV<T, Error>(swrKey, memoizedFetcher, swrConfig);
 }
 
-export { useApi, fetcher };
+function useApiWithRef<T>(path: () => string | null, { ...swrConfig }: IConfig = {}) {
+  const client = useChainlitContext();
+  const { user } = useAuthState();
+
+  const memoizedFetcher = (path: string) => {
+    // TODO: Handle Error Retry
+    // if (!swrConfig.onErrorRetry) {
+    //   swrConfig.onErrorRetry = (...args) => {
+    //     const [err] = args;
+
+    //     // Don't do automatic retry for 401 - it just means we're not logged in (yet).
+    //     if (err.status === 401) {
+    //       setUser(null);
+    //       return;
+    //     }
+
+    //     // Fall back to default behavior.
+    //     return SWRConfig.defaultValue.onErrorRetry(...args);
+    //   };
+    // }
+
+    const useApiClient = cloneClient(client);
+    useApiClient.on401 = useApiClient.onError = undefined;
+    return fetcher(useApiClient, path);
+  }
+
+  // Use a stable key for useSWR
+  const swrKey = path
+
+  return useSWRV<T, Error>(swrKey, memoizedFetcher, swrConfig);
+}
+
+export { useApi, useApiWithRef, fetcher };
