@@ -3,21 +3,23 @@ import type { IAuthConfig, IUser } from '@/types';
 import { useAuthConfig } from './config';
 import { useSessionManagement } from './sessionManagement';
 import { useUserManagement } from './userManagement';
+import { computed } from 'vue';
 
 export const useAuth = () => {
   const { authConfig } = useAuthConfig();
   const { logout } = useSessionManagement();
   const { user, setUserFromAPI } = useUserManagement();
 
-  const isReady =
-    !!authConfig && (!authConfig.value?.requireLogin || user !== undefined);
+  const isReady = computed(() => {
+    return !!authConfig.value && (!authConfig.value?.requireLogin || user.value !== undefined);
+  })
 
-  if (authConfig && !authConfig.value?.requireLogin) {
+  if (authConfig.value && !authConfig.value?.requireLogin) {
     return {
       data: authConfig,
       user: null,
       isReady,
-      isAuthenticated: true,
+      isAuthenticated: computed(() => true),
       logout: () => Promise.resolve(),
       setUserFromAPI: () => Promise.resolve()
     };
@@ -27,7 +29,7 @@ export const useAuth = () => {
     data: authConfig,
     user,
     isReady,
-    isAuthenticated: !!user,
+    isAuthenticated: computed(() => !!user.value), 
     logout,
     setUserFromAPI
   };
