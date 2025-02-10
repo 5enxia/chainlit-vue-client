@@ -51,7 +51,7 @@ function useApi<T>(
   const client = useChainlitContext();
   const { user } = useAuthState();
 
-  const memoizedFetcher = ([url]: [url: string]) => {
+  const memoizedFetcher = (path: string) => {
     // TODO: Handle Error Retry
     // if (!swrConfig.onErrorRetry) {
     //   swrConfig.onErrorRetry = (...args) => {
@@ -70,13 +70,11 @@ function useApi<T>(
 
     const useApiClient = cloneClient(client);
     useApiClient.on401 = useApiClient.onError = undefined;
-    return fetcher(useApiClient, url);
+    return fetcher(useApiClient, path);
   }
 
   // Use a stable key for useSWR
-  const swrKey = () => {
-    return path ? [path] : null;
-  }
+  const swrKey = path ? path : null;
 
   return useSWRV<T, Error>(swrKey, memoizedFetcher, swrConfig);
 }

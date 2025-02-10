@@ -12,7 +12,7 @@ const useConfig = () => {
   const language = navigator.language || 'en-US';
 
   const { data, error, isValidating: isLoading } = useApi<IChainlitConfig>(
-    !config && isAuthenticated ? `/project/settings?language=${language}` : null
+    !config.value && isAuthenticated ? `/project/settings?language=${language}` : null
   );
 
   watch(data, (newValue) => {
