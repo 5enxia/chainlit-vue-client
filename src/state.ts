@@ -168,15 +168,17 @@ export const useStateStore = defineStore('state', (): State => {
     pageInfo: undefined
   });
 
-  watch(threadHistoryState, async (newValue, oldValue) => {
+  watch(threadHistoryState, (newValue, oldValue) => {
+    if (isEqual(newValue, oldValue)) return;
     if (newValue?.threads && !isEqual(newValue.threads, oldValue?.timeGroupedThreads)) {
-      await nextTick(); // Wait DOM update
-      threadHistoryState.value = {
-        ...newValue,
-        timeGroupedThreads: groupByDate(newValue.threads),
-      };
+      if (threadHistoryState.value) {
+        threadHistoryState.value = {
+          ...threadHistoryState.value,
+          timeGroupedThreads: groupByDate(newValue.threads)
+        }
+      }
     }
-  }, { deep: true });
+  });
 
   const sideViewState = ref<IMessageElement | undefined>(undefined);
 
