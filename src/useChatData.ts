@@ -1,5 +1,6 @@
 import { storeToRefs } from "pinia";
 import { useStateStore } from "./state";
+import { computed, ref, watch } from "vue";
 
 export interface IToken {
   id: number | string;
@@ -23,13 +24,16 @@ const useChatData = () => {
     chatSettingsDefaultValue
   } = storeToRefs(store);
 
+  const connected = ref(false)
+  watch(session, () => {
+    if (session.value) {
+      connected.value = session.value.socket.connected && !session.value.error
+    }
+  }, { deep: true })
 
-  const connected = session.value?.socket.connected && !session.value?.error;
-  const disabled =
-    !connected ||
-    loading ||
-    askUser.value?.spec.type === 'file' ||
-    askUser.value?.spec.type === 'action';
+  const disabled = computed(() => {
+    return !connected.value || loading.value || askUser.value?.spec.type === 'file' || askUser.value?.spec.type === 'action'
+  })
 
   return {
     actions,
