@@ -96,9 +96,6 @@ export const useStateStore = defineStore('state', (): State => {
   }
 
   const actionState = ref<IAction[]>([]);
-  const setActionState = (callback: (actions: IAction[]) => IAction[]) => {
-    actionState.value = callback(actionState.value);
-  }
 
   const messagesState = ref<IStep[]>([]);
   const setMessagesState = (callback: (messages: IStep[]) => IStep[]) => {
@@ -195,7 +192,7 @@ export const useStateStore = defineStore('state', (): State => {
     setSession,
     setSessionError,
     actionState,
-    setActionState,
+    // setActionState,
     messagesState,
     setMessagesState,
     tokenCountState,

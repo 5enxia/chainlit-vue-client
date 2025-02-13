@@ -61,7 +61,7 @@ const useChatSession = () => {
     setSessionError,
     setTasklistState,
     setElementState,
-    setActionState,
+    // setActionState,
     setTokenCountState,
   } = store
 
@@ -281,15 +281,13 @@ const useChatSession = () => {
     });
 
     socket.on('action', (action: IAction) => {
-      setActionState((old) => [...old, action]);
+      actions.value = [...actions.value, action];
     });
 
     socket.on('remove_action', (action: IAction) => {
-      setActionState((old) => {
-        const index = old.findIndex((a) => a.id === action.id);
-        if (index === -1) return old;
-        return [...old.slice(0, index), ...old.slice(index + 1)];
-      });
+      const index = actions.value.findIndex((a) => a.id === action.id);
+      if (index === -1) return actions.value;
+      actions.value = [...actions.value.slice(0, index), ...actions.value.slice(index + 1)];
     });
 
     socket.on('token_usage', (count: number) => {
