@@ -24,6 +24,10 @@ export interface ISession {
   error?: boolean;
 }
 
+export interface SideViewProps {
+  title: string
+  elements: IMessageElement[]
+}
 export interface State {
   threadIdToResumeState: Ref<string | undefined>;
   resumeThreadErrorState: Ref<string | undefined>;
@@ -60,7 +64,7 @@ export interface State {
   configState: Ref<IChainlitConfig | undefined>;
   authState: Ref<IAuthConfig | undefined>;
   threadHistoryState: Ref<ThreadHistory | undefined>;
-  sideViewState: Ref<IMessageElement | undefined>;
+  sideViewState: Ref<SideViewProps | undefined>;
   currentThreadIdState: Ref<string | undefined>;
 }
 
@@ -177,7 +181,7 @@ export const useStateStore = defineStore('state', (): State => {
     }
   });
 
-  const sideViewState = ref<IMessageElement | undefined>(undefined);
+  const sideViewState = ref<SideViewProps | undefined>(undefined);
 
   const currentThreadIdState = ref<string | undefined>(undefined);
 
