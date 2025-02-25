@@ -23,6 +23,7 @@ import type { OutputAudioChunk } from './types/audio';
 import type { IToken } from '@/useChatData';
 
 import { useChainlitContext } from '.';
+import type { ICommand } from './types/command';
 
 const useChatSession = () => {
   const client = useChainlitContext();
@@ -46,6 +47,7 @@ const useChatSession = () => {
     tasklistState: tasklists,
     actionState: actions,
     chatSettingsInputsState: chatSettingsInputs,
+    commandsState,
     tokenCountState: tokenCount,
     chatProfileState: chatProfile,
     threadIdToResumeState: idToResume,
@@ -243,6 +245,10 @@ const useChatSession = () => {
     socket.on('chat_settings', (inputs: any) => {
       chatSettingsInputs.value = inputs;
       resetChatSettingsValue();
+    });
+
+    socket.on('set_commands', (commands: ICommand[]) => {
+      commandsState.value = commands
     });
 
     socket.on('element', (element: IElement) => {

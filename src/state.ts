@@ -10,6 +10,7 @@ import type {
   IAuthConfig,
   ICallFn,
   IChainlitConfig,
+  ICommand,
   IMessageElement,
   IStep,
   ITasklistElement,
@@ -41,6 +42,7 @@ export interface State {
   setActionState: (callback: (actions: IAction[]) => IAction[]) => void;
   messagesState: Ref<IStep[]>;
   setMessagesState: (callback: (messages: IStep[]) => IStep[]) => void;
+  commandsState: Ref<ICommand[]>;
   tokenCountState: Ref<number>;
   setTokenCountState: (callback: (count: number) => number) => void;
   loadingState: Ref<boolean>;
@@ -105,6 +107,8 @@ export const useStateStore = defineStore('state', (): State => {
   const setMessagesState = (callback: (messages: IStep[]) => IStep[]) => {
     messagesState.value = callback(messagesState.value);
   }
+
+  const commandsState = ref<ICommand[]>([]);
 
   const tokenCountState = ref<number>(0);
   const setTokenCountState = (callback: (count: number) => number) => {
@@ -199,6 +203,7 @@ export const useStateStore = defineStore('state', (): State => {
     // setActionState,
     messagesState,
     setMessagesState,
+    commandsState,
     tokenCountState,
     setTokenCountState,
     loadingState,
