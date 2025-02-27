@@ -11,7 +11,7 @@ export const useAuth = () => {
   const { user, setUserFromAPI } = useUserManagement();
 
   const isReady = computed(() => {
-    return !!authConfig.value && (!authConfig.value?.requireLogin || user.value !== undefined);
+    return !!authConfig.value && (!authConfig.value.requireLogin || user?.value !== undefined);
   })
 
   if (authConfig.value && !authConfig.value?.requireLogin) {
