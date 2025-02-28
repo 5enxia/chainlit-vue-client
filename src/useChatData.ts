@@ -29,7 +29,7 @@ const useChatData = () => {
     if (session.value) {
       connected.value = session.value.socket.connected && !session.value.error
     }
-  }, { deep: true })
+  }, { deep: true, immediate: true })
 
   const disabled = computed(() => {
     return !connected.value || loading.value || askUser.value?.spec.type === 'file' || askUser.value?.spec.type === 'action'
