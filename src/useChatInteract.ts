@@ -64,7 +64,18 @@ const useChatInteract = () => {
     }
     setMessagesState((oldMessages) => addMessage(oldMessages, message as IStep));
 
-    session.value?.socket.emit('client_message', { message, fileReferences });
+    const socket = session.value?.socket;
+    if (socket) {
+      if (socket.connected) {
+        socket.emit('client_message', { message, fileReferences });
+      } else {
+        // Wait for the socket to reconnect before sending the message
+        // This ensures the message is sent after connection_successful is emitted
+        socket.once('connect', () => {
+          socket.emit('client_message', { message, fileReferences });
+        });
+      }
+    }
   }
 
   const editMessage =  (message: IStep) => {
